@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="theme-color" content="#000000">
+	<title>Pay_app</title>
+	<meta name="description" content="Finapp HTML Mobile Template">
+	<link rel="icon" type="image/png" th:href="@{/resources/img/logo.jpeg}" sizes="32x32">
+	<link rel="apple-touch-icon" sizes="180x180" th:href="@{/resources/img/logo.jpeg}">
+	<link th:href="@{/resources/css/payApp.css}" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{/resources/fontawesome-5/FA5PRO-master/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+
+
+	<link rel="manifest" th:href="@{__manifest.json}">
+</head>
+
+
+<body>
+
+	<!-- loader -->
+	<div id="loader">
+		<img th:src="@{/resources/img/loading-icon.png}" alt="icon" class="loading-icon">
+	</div>
+	<!-- * loader -->
+
+	<!-- App Header -->
+	<div class="appHeader">
+		<div class="left">
+			<a href="#" class="headerButton goBack">
+				<ion-icon name="chevron-back-outline"></ion-icon>
+			</a>
+		</div>
+		<div class="pageTitle">
+			Transactions
+		</div>
+		<div class="right">
+
+		</div>
+	</div>
+	<!-- * App Header -->
+
+
+	<!-- App Capsule -->
+	<div id="appCapsule">
+
+
+		<div class="section mt-2">
+			<!-- card block -->
+			<div class="card-block mb-2">
+				<div class="card-main">
+					<div class="balance">
+						<span class="label">BALANCE</span>
+						<h1 class="title" th:text="${wallet.amount}"></h1>
+					</div>
+					<div class="in">
+						<div class="card-number" th:text="${wallet.walletUserID}">
+							<span class="label">Card Number</span>
+
+						</div>
+						<div class="bottom">
+							<div class="card-expiry">
+								<span class="label">Expiry</span>
+								12 / 25
+							</div>
+							<div class="card-ccv">
+								<span class="label">CCV</span>
+								553
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- * card block -->
+
+		<!-- Transfer Action Sheet Inset -->
+		<div class="modal fade action-sheet inset" id="transferActionSheet" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Transfer Money</h5>
+					</div>
+					<div class="modal-body">
+						<div class="action-sheet-content">
+							<form th:action="@{/user/send}" method="POST" th:object="${inputForm}">
+								<div class="form-group basic">
+									<div class="input-wrapper">
+										<label class="label" for="text11d">To</label>
+										<input type="text" th:field="*{to}" class="form-control" id="text11d"
+											placeholder="Enter PhoneNumber">
+										<i class="clear-input">
+											<ion-icon name="close-circle"></ion-icon>
+										</i>
+									</div>
+								</div>
+
+								<div class="form-group basic">
+									<label class="label">Enter Amount</label>
+									<div class="input-group mb-2">
+										<span class="input-group-text" id="basic-addonb1">$</span>
+										<input type="number" th:field="*{amount}" class="form-control"
+											placeholder="Enter an amount" minlength="1000">
+									</div>
+								</div>
+
+								<div class="form-group basic">
+									<button type="submit" class="btn btn-primary btn-block btn-lg"
+										data-bs-dismiss="modal">Transfer</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- * withdraw Action Sheet Inset -->
+		<!-- Transactions -->
+		<div class="section mt-5">
+			<div class="transactions" th:each="transaction:${transactions}">
+				<!-- item -->
+				<a href="#" data-bs-toggle="modal"
+					th:data-bs-target="'#'+${transaction.sender.userName}+${transaction.transactionID}" class="item">
+					<div class="detail">
+						<img th:src="@{https://ui-avatars.com/api/?bold=true&color=fff&background=6495ED&name={photo}(photo=${transaction.receiver.userName})}"
+							alt="img" class="image-block imaged w48">
+						<div th:if="${transaction.receiver.userName == wallet.walletUser.userName}">
+							<strong th:text="${transaction.sender.userName}"></strong>
+							<p>INCOME</p>
+						</div>
+						<div th:if="${transaction.receiver.userName != wallet.walletUser.userName}">
+							<strong th:text="${transaction.receiver.userName}"></strong>
+							<p>EXPENSES</p>
+						</div>
+					</div>
+					<div class="right">
+						<div th:if="${transaction.receiver.userName != wallet.walletUser.userName}">
+							<p class="price text-danger" th:text="${transaction.amount}"></p><i>MMK</i>
+						</div>
+						<div th:if="${transaction.receiver.userName == wallet.walletUser.userName}">
+							<p class="price text-success" th:text="${transaction.amount}"></p><i>MMK</i>
+						</div>
+					</div>
+				</a>
+
+
+
+				<!-- Deposit Action Sheet -->
+				<div class="modal fade action-sheet inset"
+					th:id="${transaction.sender.userName}+${transaction.transactionID}" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content" style="padding:0px 30px 0px 30px">
+							<div class="modal-header">
+								<h5 class="modal-title">Transaction Detail</h5>
+							</div>
+							<div class="modal-body">
+								<div class="section mt-2 mb-2">
+
+									<div class="listed-detail mt-3">
+										<div class="icon-wrapper">
+											<div class="iconbox">
+												<ion-icon name="arrow-forward-outline"></ion-icon>
+											</div>
+										</div>
+										<h3 class="text-center mt-2">Payment Success</h3>
+									</div>
+
+									<ul class="listview flush transparent simple-listview no-space mt-3">
+										<li th:if="${transaction.receiver.userName == wallet.walletUser.userName}">
+											<strong>Type</strong>
+											<span class="text-success">INCOME</span>
+										</li>
+										<li th:if="${transaction.receiver.userName != wallet.walletUser.userName}">
+											<strong>Type</strong>
+											<span class="text-danger">EXPENSES</span>
+										</li>
+										<li>
+											<strong>From</strong>
+											<span th:text="${transaction.sender.userName}"></span>
+										</li>
+										<li>
+											<strong>To</strong>
+											<span th:text="${transaction.receiver.userName}"></span>
+										</li>
+
+										<li>
+											<strong>Date</strong>
+											<span th:text="${transaction.transactionDate}"></span>
+										</li>
+										<li>
+											<strong>Amount</strong>
+											<h3 class="m-0" th:text="${transaction.amount}"></h3>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+			</div>
+		</div>
+	</div>
+	<!-- * App Capsule -->
+	<div class="section full fix mt-4">
+		<!-- App Bottom Menu -->
+		<div class="appBottomMenu" style="position: fixed; z-index: 0; padding-bottom: 0;">
+			<a th:href="@{/}" class="item">
+				<div class="col">
+					<i class="fal fa-home fa-fade"></i>
+					<p>Home</p>
+				</div>
+			</a>
+			<a th:href="@{/user/transactionLists}" class="item">
+				<div class="col">
+					<i class="fal fa-chart-line fa-fade"></i>
+					<p>Activity</p>
+				</div>
+			</a>
+			<a href="#" data-bs-toggle="modal" data-bs-target="#transferActionSheet" class="item">
+				<div class="col">
+					<div class="action-button large">
+						<i class="fal fa-paper-plane fa-fade"></i>
+					</div>
+					<p>Send</p>
+				</div>
+			</a>
+			<a th:href="@{/user/card}" class="item">
+				<div class="col">
+					<i class="fal fa-money-check-dollar fa-fade"></i>
+					<p>Wallet</p>
+				</div>
+			</a>
+
+			<a href="#" class="item" data-bs-toggle="modal" data-bs-target="#sidebarPanel">
+				<div class="col">
+					<i class="fal fa-ellipsis-h fa-fade"></i>
+					<p>Mores</p>
+				</div>
+			</a>
+
+		</div>
+		<!-- * App Bottom Menu -->
+	</div>
+	<!-- App Sidebar -->
+	<div class="modal fade panelbox panelbox-left" id="sidebarPanel" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body p-0">
+					<!-- profile box -->
+					<div class="profileBox pt-2 pb-2">
+						<div class="image-wrapper">
+							<img th:src="@{/resources/img/logo.jpeg}" alt="image" class="imaged " style="width: 45px;">
+						</div>
+						<div class="in">
+							<strong>Pay_App</strong>
+						</div>
+						<a href="#" class="btn btn-link btn-icon sidebar-close" data-bs-dismiss="modal">
+							<i class="fa fa-angle-left"></i>
+						</a>
+					</div>
+					<!-- * profile box -->
+					<!-- menu -->
+					<div class="listview-title mt-1">Menu</div>
+					<ul class="listview flush transparent no-line image-listview">
+						<li>
+							<a th:href="@{/user/transactionLists}" class="item">
+								<div class="icon-box bg-success">
+									<i class="fa fa-window-restore text-light "></i>
+								</div>
+								<div class="in">
+									Transactions
+								</div>
+								<i class="fa fa-angle-right"></i>
+							</a>
+						</li>
+						<li>
+							<a th:href="@{/user/card}" class="item">
+								<div class="icon-box bg-danger">
+									<ion-icon name="document-text-outline"></ion-icon>
+								</div>
+								<div class="in">
+									Wallet
+								</div>
+								<i class="fa fa-angle-right"></i>
+
+							</a>
+						</li>
+					</ul>
+					<!-- * menu -->
+
+					<!-- others -->
+					<div class="listview-title mt-1">Others</div>
+					<ul class="listview flush transparent no-line image-listview">
+						<li>
+							<a th:href="@{/user/profileSettings}" class="item">
+								<div class="icon-box bg-white">
+									<ion-icon name="settings-outline"></ion-icon>
+								</div>
+								<div class="in">
+									Settings
+								</div>
+								<i class="fa fa-angle-right"></i>
+							</a>
+						</li>
+						
+						<li>
+							<a th:href="@{/doLogout}" class="item">
+								<div class="icon-box bg-primary">
+									<ion-icon name="log-out-outline"></ion-icon>
+								</div>
+								<div class="in">
+									Log out
+								</div>
+								<i class="fa fa-angle-right"></i>
+							</a>
+						</li>
+
+
+					</ul>
+					<!-- * others -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- * App Sidebar -->
+	<!-- ========= JS Files =========  -->
+	<!-- Bootstrap -->
+	<script th:src="@{/resources/js/lib/bootstrap.bundle.min.js}"></script>
+
+	<!-- Ionicons -->
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+	<!-- Splide -->
+	<script th:src="@{/resources/js/plugins/splide/splide.min.js}"></script>
+
+	<!-- Base Js File -->
+	<script th:src="@{/resources/js/base.js}"></script>
+
+
+	<script>
+		// Add to Home with 2 seconds delay.
+		AddtoHome("2000", "once");
+	</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+{
+  "properties": [
+    {
+      "name": "my.mail.host",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.host'"
+    },
+    {
+      "name": "my.mail.post",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.post'"
+    },
+    {
+      "name": "my.mail.password",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.password'"
+    },
+    {
+      "name": "my.mail.username",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.username'"
+    },
+    {
+      "name": "my.mail.properties.mail.smtp.starttls.enable",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.properties.mail.smtp.starttls.enable'"
+    },
+    {
+      "name": "my.mail.port",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.port'"
+    },
+    {
+      "name": "my.mail.port",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.port'"
+    },
+    {
+      "name": "my.mail.port",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.port'"
+    },
+    {
+      "name": "my.mail.port",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.port'"
+    },
+    {
+      "name": "my.mail.port",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.port'"
+    },
+    {
+      "name": "my.mail.port",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.port'"
+    },
+    {
+      "name": "my.mail.properties.mail.smtp.starttls.required",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.properties.mail.smtp.starttls.required'"
+    },
+    {
+      "name": "my.mail.properties.mail.smtp.auth",
+      "type": "java.lang.String",
+      "description": "A description for 'my.mail.properties.mail.smtp.auth'"
+    },
+    {
+      "name": "my.mail.host",
+      "type": "java.lang.String",
+      "description": "Description for my.mail.host."
+  }
+]}

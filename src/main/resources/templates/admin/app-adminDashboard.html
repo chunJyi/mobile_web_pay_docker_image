@@ -1,0 +1,430 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="theme-color" content="#000000">
+	<title>Pay_app</title>
+	<link rel="icon" type="image/png" th:href="@{/resources/img/logo.jpeg}" sizes="32x32">
+	<link rel="apple-touch-icon" sizes="180x180" th:href="@{/resources/img/logo.jpeg}">
+
+	<link th:href="@{/resources/css/payApp.css}" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{/resources/fontawesome-5/FA5PRO-master/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+
+
+	<link rel="manifest" th:href="@{__manifest.json}">
+
+	<style>
+	
+		
+			
+		
+		.bbtn {
+
+
+			width: 110px;
+			padding: 5px 13px;
+			font-size: 13px;
+			line-height: 1.2em;
+			font-weight: 500;
+			box-shadow: none !important;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			transition: 0.2s all;
+			text-decoration: none !important;
+			border-radius: 10px;
+			border-width: 2px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<!-- loader -->
+	<!-- <div id="loader">
+        <img src="assets/img/loading-icon.png" alt="icon" class="loading-icon">
+    </div> -->
+	<!-- * loader -->
+	<!-- App Header -->
+	<div class="appHeader   text-light" style="background:transparent;margin-top :15px">
+		<div class="left">
+			<a href="#" class="headerButton" data-bs-toggle="modal" data-bs-target="#sidebarPanel">
+				<img th:src="@{/resources/img/logo.jpeg}" alt="logo" class="imaged " style="width: 45px;">
+			</a>
+		</div>
+		<div class="right">
+			<div class="right dropdown">
+				<a href="#" class="headerButton" data-bs-toggle="dropdown">
+					<img th:src="@{https://ui-avatars.com/api/?bold=true&color=fff&background=6495ED&name={photo}(photo=${loginUser.userName})}"
+						 alt="img"
+						style="box-shadow: 0 3px 3px 0 rgba(240, 39, 39, 0);border-radius:30px"
+						class="image-block imaged w48">
+				</a>
+				<div class="dropdown-menu dropdown-menu-end">
+					<a class="dropdown-item" th:href="@{/user/profileSettings}">Settings</a>
+					<a class="dropdown-item" th:href="@{/doLogout}">Logout</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- * App Header -->
+	<!-- App Capsule -->
+	<div id="appCapsule">
+		<!-- Start body -->
+		<div class="container-fluid py-4">
+			<div class="container-fluid py-4">
+				<div>
+					<p th:text=${message}></p>
+					<p th:text=${loginUser.account.role}></p>
+				</div>
+				<div class="row">
+					<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" th:if="${loginUser.account.role.toString() =='Admin'}">
+						<div class="card">
+							<div class="card-body p-3">
+								<div class="row">
+									<div class="col-8">
+										<div class="numbers">
+											<p class="text-sm mb-0 text-uppercase font-weight-bold">Add Member</p>
+											<h5 class="font-weight-bolder ">
+											</h5>
+										</div>
+									</div>
+									<div class="col-4 text-end">
+										<div
+											class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+											<a th:href="@{admin/createMember}"> <i
+													class="fa fa-user-plus  text-lg opacity-10" style="font-size: 25px;"
+													aria-hidden="true"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+						<div class="card">
+							<div class="card-body p-3">
+								<div class="row">
+									<div class="col-8">
+										<div class="numbers">
+											<p class="text-sm mb-0 text-uppercase font-weight-bold">USERS</p>
+											<h5 class="font-weight-bolder "></h5>
+										</div>
+									</div>
+									<div class="col-4 text-end">
+										<div
+											class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+											<span th:text="${usersCount}"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+						<div class="card">
+							<div class="card-body p-3">
+								<div class="row">
+									<div class="col-8">
+										<div class="numbers">
+											<p class="text-sm mb-0 text-uppercase font-weight-bold">MEMBERS</p>
+											<h5 class="font-weight-bolder ">
+											</h5>
+										</div>
+									</div>
+									<div class="col-4 text-end">
+										<div
+											class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+											<span th:text="${membersCount}"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-sm-6">
+						<div class="card">
+							<div class="card-body p-3">
+								<div class="row">
+									<div class="col-8">
+										<div class="numbers">
+											<p class=" text-sm mb-0 text-uppercase font-weight-bold">TRANSACTIONS</p>
+											<h5 class="font-weight-bolder">
+
+											</h5>
+
+										</div>
+									</div>
+									<div class="col-4 text-end">
+										<div
+											class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
+											<i class="fa fa-clipboard text-lg opacity-10" aria-hidden="true"></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row my-3" th:if="${loginUser.account.role.toString() =='Admin'}">
+					<div>
+						<p th:text="${memberManagementMessage}"></p>
+					</div>
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<p class="text-uppercase text-sm">MEMBER LISTS</p>
+								<div class="row">
+									<div class="col-12">
+										<div class="card-body  px-0 pt-0 pb-2 " style="min-height: 25rem;">
+											<div class="table-responsive p-0">
+												<table class="table align-items-center mb-0">
+													<thead>
+														<tr>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																Email
+															</th>
+
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																CreatedDate
+															</th>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																UpdatedDate
+															</th>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+																Enable/Disable
+															</th>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+																ChangePassword
+															</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each=member:${members}>
+															<!--th:each=stu: ${records}-->
+															<td>
+																<p class="text-xs font-weight-bold mb-0"
+																	th:text=${member.email}></p>
+															</td>
+
+															<td>
+																<p class="text-xs font-weight-bold mb-0"
+																	th:text=${member.createdDate}></p>
+															</td>
+
+															<td>
+																<p class="text-xs font-weight-bold mb-0"
+																	th:text=${member.updatedDate}></p>
+															</td>
+															<td>
+																<p th:if="${member.enable}!=true"
+																	class="text-xs font-weight-bold mb-0"><a class="bbtn btn-primary btn-block"
+																		th:href="@{/admin/memberManagement/{id}(id=${member.accountID})}"
+																		}>Enable</a></p>
+
+																<p th:if="${member.enable}!=false"
+																	class="text-xs font-weight-bold mb-0"><a class="bbtn btn-secondary btn-block"
+																		th:href="@{/admin/memberManagement/{id}(id=${member.accountID})}"
+																		}>Disable</a></p>
+															</td>
+															<td>
+																<p class="text-xs font-weight-bold mb-0"><a 
+																		th:href="@{/admin/memberChangePassword/{id}(id=${member.accountID})}"
+																		}>Change Password</a></p>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<hr class="horizontal dark">
+								<!--<div>
+									&nbsp;
+								</div>
+								<div>Total Items : [[${totalRecordElements}]] - Page [[${currentRecordPage}]] of
+									[[${totalRecordPages}]]
+									&nbsp; -&nbsp;
+									<span th:each="i: ${#numbers.sequence(1,totalRecordPages)}">
+                                    <a th:if="${i != currentRecordPage}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+                                    <span th:unless="${i != currentRecordPage}">[[${i}]]</span> &nbsp;&nbsp;
+                                </span>-->
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="row my-3">
+					<div>
+						<p th:text="${userManagementMessage}"></p>
+					</div>
+					<div class="col-12">
+						<div class="card">
+							<div class="card-body">
+								<p class="text-uppercase text-sm">USER LISTS</p>
+								<div class="row">
+									<div class="col-12">
+										<div class="card-body  px-0 pt-0 pb-2 " style="min-height: 25rem;">
+											<div class="table-responsive p-0">
+												<table class="table align-items-center mb-0">
+													<thead>
+														<tr>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																User
+															</th>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																UserWalletID
+															</th>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																Name
+															</th>
+
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																Email
+															</th>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																Phone No
+															</th>
+
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																CreatedDate
+															</th>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+																UpdatedDate
+															</th>
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+																Enable/Disable
+															</th>
+
+															<th
+																class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+																Amount
+															</th>
+
+
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each=wallet:${wallets}>
+															<!--th:each=stu: ${records}-->
+															<td>
+																<p class="text-xs font-weight-bold mb-0"
+																	th:text=${wallet.walletUser.userName}></p>
+															</td>
+															<td>
+																<p class="text-xs font-weight-bold mb-0"
+																	th:text=${wallet.walletUserID}></p>
+															</td>
+															<td>
+																<p class="text-xs font-weight-bold mb-0"
+																	th:text=${wallet.walletUser.userName}></p>
+															</td>
+															<td>
+																<p class="text-xs font-weight-bold mb-0"
+																	th:text=${wallet.walletUser.account.email}></p>
+															</td>
+															<td>
+																<p class="text-xs font-weight-bold mb-0"
+																	th:text=${wallet.walletUser.phoneNo}></p>
+															</td>
+
+															<td>
+																<p class="text-xs font-weight-bold mb-0"
+																	th:text=${wallet.walletUser.account.createdDate}></p>
+															</td>
+
+															<td>
+																<p class="text-xs font-weight-bold mb-0"
+																	th:text=${wallet.walletUser.account.updatedDate}></p>
+															</td>
+															<td style="padding: 8px !important;">
+																<p th:if="${wallet.walletUser.account.enable}!=true"
+																	class="text-xs font-weight-bold mb-0"><a
+																		class="bbtn btn-danger btn-block"
+																		th:href="@{/admin/userManagement/{id}(id=${wallet.walletUser.account.accountID})}"
+																		}>Enable</a></p>
+
+																<p th:if="${wallet.walletUser.account.enable}!=false"
+																	class="text-xs font-weight-bold mb-0"><a
+																		class="bbtn btn-secondary btn-block"
+																		th:href="@{/admin/userManagement/{id}(id=${wallet.walletUser.account.accountID})}"
+																		}>Disable</a></p>
+															</td>
+															<td>
+																<p class="text-xs font-weight-bold mb-0"
+																	th:text="${wallet.amount}"></p>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<hr class="horizontal dark">
+								<!--<div>
+									&nbsp;
+								</div>
+								<div>Total Items : [[${totalRecordElements}]] - Page [[${currentRecordPage}]] of
+									[[${totalRecordPages}]]
+									&nbsp; -&nbsp;
+									<span th:each="i: ${#numbers.sequence(1,totalRecordPages)}">
+                                    <a th:if="${i != currentRecordPage}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+                                    <span th:unless="${i != currentRecordPage}">[[${i}]]</span> &nbsp;&nbsp;
+                                </span>-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	<!-- * App Capsule -->
+
+
+
+	<!-- ========= JS Files =========  -->
+	<!-- Bootstrap -->
+	<script th:src="@{/resources/js/lib/bootstrap.bundle.min.js}"></script>
+
+	<!-- Ionicons -->
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+	<!-- Splide -->
+	<script th:src="@{/resources/js/plugins/splide/splide.min.js}"></script>
+
+	<!-- Base Js File -->
+	<script th:src="@{/resources/js/base.js}"></script>
+
+
+	<script>
+		// Add to Home with 2 seconds delay.
+		AddtoHome("2000", "once");
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="theme-color" content="#000000">
+	<title>Pay_app</title>
+	<meta name="description" content="Finapp HTML Mobile Template">
+	<link rel="icon" type="image/png" th:href="@{/resources/img/logo.jpeg}" sizes="32x32">
+	<link rel="apple-touch-icon" sizes="180x180" th:href="@{/resources/img/logo.jpeg}">
+	<link th:href="@{/resources/css/payApp.css}" rel="stylesheet" />
+	<link rel="stylesheet" th:href="@{/resources/fontawesome-5/FA5PRO-master/css/all.css}">
+	<link rel="stylesheet" th:href="@{/resources/fontawesome/css/all.css}">
+
+
+	<link rel="manifest" th:href="@{__manifest.json}">
+</head>
+
+<body class="bg-white">
+
+	<!-- loader -->
+	<div id="loader">
+		<img th:src="@{/resources/img/loading-icon.png}" alt="icon" class="loading-icon">
+	</div>
+	<!-- * loader -->
+
+	<!-- App Header -->
+	<div class="appHeader no-border">
+		<div class="left">
+			<a href="#" class="headerButton goBack">
+				<ion-icon name="chevron-back-outline"></ion-icon>
+			</a>
+		</div>
+		<div class="pageTitle">
+			Transaction Verification
+		</div>
+		<div class="right"> </div>
+	</div>
+	<!-- * App Header -->
+
+	<!-- App Capsule -->
+	<div id="appCapsule">
+
+		<div class="section">
+			<div class="splash-page mt-5 mb-5">
+
+				<div class="transfer-verification" th:object="${outputForm}">
+					<div class="transfer-amount">
+						<span class="caption">Amount</span>
+						<h2 th:text="${outputForm.amount}"></h2>
+					</div>
+					<div class="from-to-block mb-5">
+						<div class="item text-start">
+							<img th:src="@{https://ui-avatars.com/api/?bold=true&color=fff&background=6495ED&name={photo}(photo=${outputForm.sender})}"
+								alt="avatar" class="imaged w48">
+							<strong th:text="${outputForm.sender}"></strong>
+						</div>
+						<div class="item text-end">
+							<img th:src="@{https://ui-avatars.com/api/?bold=true&color=fff&background=6495ED&name={photo}(photo=${outputForm.receiver})}"
+								alt="avatar" class="imaged w48"> <strong th:text="${outputForm.receiver}"></strong>
+						</div>
+						<div class="arrow"></div>
+					</div>
+				</div>
+				<h2 class="mb-2 mt-2">Verify the Transaction</h2>
+				<p>
+					You are sending <strong class="text-primary" th:text="${amount}"></strong> to <span th:text="${outputForm.receiver}"></span>. <br>Are you
+					sure?
+				</p>
+			</div>
+		</div>
+
+		<div class="fixed-bar">
+			<div class="row">
+				<div class="col-6">
+					<a th:href="@{/transactionVerification/cancel}"
+						class="btn btn-lg btn-outline-secondary btn-block">Cancel</a>
+				</div>
+				<div class="col-6">
+					<a th:href="@{/transactionVerification/confirm}"
+						class="btn btn-lg btn-primary btn-block">Confirm</a>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+	<!-- * App Capsule -->
+
+
+	<!-- ========= JS Files =========  -->
+	<!-- Bootstrap -->
+	<script th:src="@{/resources/js/lib/bootstrap.bundle.min.js}"></script>
+
+	<!-- Ionicons -->
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+	<!-- Splide -->
+	<script th:src="@{/resources/js/plugins/splide/splide.min.js}"></script>
+
+	<!-- Base Js File -->
+	<script th:src="@{/resources/js/base.js}"></script>
+
+
+	<script>
+		// Add to Home with 2 seconds delay.
+		AddtoHome("2000", "once");
+	</script>
+
+</body>
+
+</html>
